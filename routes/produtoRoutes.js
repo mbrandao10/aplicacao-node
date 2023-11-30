@@ -45,6 +45,28 @@ router.get('/produtos/:id', async (req, res) => {
     }
 });
 
+// GET: Listar produtos que contenham uma palavra-chave na descrição
+  router.get('/produtos/descricao/:palavraChave', async (req, res) => {
+    try {
+      const palavraChave = req.params.palavraChave;
+      const produtos = await Produto.find({ descricao: new RegExp(palavraChave, 'i') });
+      res.send(produtos);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+});
+
+// GET: Listar produtos com preço acima de um valor especificado
+router.get('/produtos/preco-minimo/:valor', async (req, res) => {
+  try {
+    const valorMinimo = parseFloat(req.params.valor);
+    const produtos = await Produto.find({ preco: { $gt: valorMinimo } });
+    res.send(produtos);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 // PUT: Atualizar um produto pelo ID
 router.put('/produtos/:id', async (req, res) => {
     try {
