@@ -7,7 +7,7 @@ router.post('/produtos', async (req, res) => {
     try {
       let produto = new Produto(req.body);
       produto = await produto.save();
-      res.status(201).send(produto);
+      res.status(201).send(produto).json({menssagem: "produto criado com sucesso"});
     } catch (error) {
       res.status(400).send(error);
     }
@@ -17,8 +17,8 @@ router.post('/produtos', async (req, res) => {
 router.delete('/produtos/:id', async (req, res) => {
     try {
       const produto = await Produto.findByIdAndDelete(req.params.id);
-      if (!produto) return res.status(404).send();
-      res.send(produto);
+      if (!produto) return res.status(404).json({menssagem: "produto nao encontrado"});
+      res.send(produto).json({menssagem: "produto deletado com sucesso"});
     } catch (error) {
       res.status(500).send(error);
     }
@@ -38,7 +38,7 @@ router.get('/produtos', async (req, res) => {
 router.get('/produtos/:id', async (req, res) => {
     try {
       const produto = await Produto.findById(req.params.id);
-      if (!produto) return res.status(404).send();
+      if (!produto) return res.status(404).json({menssagem: "produto nao encontrado"});
       res.send(produto);
     } catch (error) {
       res.status(500).send(error);
@@ -60,7 +60,7 @@ router.get('/produtos/:id', async (req, res) => {
 router.get('/produtos/preco-minimo/:valor', async (req, res) => {
   try {
     const valorMinimo = parseFloat(req.params.valor);
-    const produtos = await Produto.find({ preco: { $gt: valorMinimo } });
+    const produtos = await Produto.find({ preco: { $gte: valorMinimo } });
     res.send(produtos);
   } catch (error) {
     res.status(500).send(error);
@@ -71,8 +71,8 @@ router.get('/produtos/preco-minimo/:valor', async (req, res) => {
 router.put('/produtos/:id', async (req, res) => {
     try {
       const produto = await Produto.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      if (!produto) return res.status(404).send();
-      res.send(produto);
+      if (!produto) return res.status(404).json({menssagem: "produto nao encontrado"});
+      res.send(produto).json({menssagem: "produto atualizado com sucesso"});
     } catch (error) {
       res.status(400).send(error);
     }
