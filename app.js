@@ -1,20 +1,23 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const produtoRoutes = require('./routes/produtoRoutes');
-
 const app = express();
+const produtoRoutes = require('./routes/produtoRoutes'); 
+
+app.use(cors());
+
+app.use(express.json());
+
+
 app.use(bodyParser.json());
-
-// Conexão com MongoDB
-mongoose.connect('mongodb://localhost:27017/minhaDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
 app.use(produtoRoutes);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+//DB conexao
+const conn = require("./db/conn");
+
+conn();
+
+
+app.listen(3000, function () {
+  console.log("Servidor funcionando!!");
 });

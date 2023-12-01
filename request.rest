@@ -1,0 +1,40 @@
+
+### Adicionar Produto
+POST http://localhost:3000/produtos
+Content-Type: application/json
+
+{
+    "nome": "mussarela",
+    "preco": "150",
+    "descricao": "frios"
+}
+
+### Buscar produto
+
+GET http://localhost:3000/produtos/
+
+### Buscar produto pelo ID
+
+GET http://localhost:3000/produtos/65692430c9b5951cbea16361
+
+### Deletar Produto
+
+DELETE http://localhost:3000/produtos/65692430c9b5951cbea16361
+
+### Atualizar Produto
+PUT http://localhost:3000/produtos/65692430c9b5951cbea16361
+Content-Type: application/json
+
+{
+    "nome": "presunto",
+    "preco": "150",
+    "descricao": "frios"
+}
+
+### Buscar produtos por descricao
+
+GET http://localhost:3000/produtos/descricao/fruta
+
+### Buscar produtos por valor minimo
+
+GET http://localhost:3000/produtos/preco-minimo/150
