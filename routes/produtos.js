@@ -1,17 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Produto = require('../models/produto');
+const produtoController = require("../controllers/produtoController");
+const Produto = require("../models/produto");
 
 // POST: Criar um novo produto
-router.post('/produtos', async (req, res) => {
-    try {
-      let produto = new Produto(req.body);
-      produto = await produto.save();
-      res.status(201).send(produto).json({menssagem: "produto criado com sucesso"});
-    } catch (error) {
-      res.status(400).send(error);
-    }
-});
+router.route("/produtos")
+      .post((req, res) => produtoController.create(req, res));
 
 // DELETE: Deletar um produto pelo ID
 router.delete('/produtos/:id', async (req, res) => {
